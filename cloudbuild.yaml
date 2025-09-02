@@ -1,4 +1,5 @@
 # cloudbuild-backend.yaml
+
 steps:
   - name: gcr.io/cloud-builders/docker
     args:
@@ -30,7 +31,7 @@ steps:
       - '--timeout'
       - '900'
     id: Deploy Backend to Cloud Run
-    
+
 images:
   - 'northamerica-northeast2-docker.pkg.dev/molten-unison-462818-r2/app-repo/bank-backend:$COMMIT_SHA'
 options:
