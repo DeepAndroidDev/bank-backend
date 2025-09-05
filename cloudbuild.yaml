@@ -1,36 +1,36 @@
 steps:
   - name: gcr.io/cloud-builders/docker
-	args: 
+    args: 
       - build
-	  - '-t'
-	  - 'northamerica-northeast2-docker.pkg.dev/bankfrontendapp/bank-repo/bank-backend:$COMMIT_SHA'
-	  - .
-	id: Build Container Image
-	  
-  - name: gcr.io/cloud-builders/docker
-	args:
-	  - push
+      - '-t'
       - 'northamerica-northeast2-docker.pkg.dev/bankfrontendapp/bank-repo/bank-backend:$COMMIT_SHA'
-	id: Push Image to Artifact Registry
-	  
+      - .
+    id: Build Container Image
+
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - 'northamerica-northeast2-docker.pkg.dev/bankfrontendapp/bank-repo/bank-backend:$COMMIT_SHA'
+    id: Push Image to Artifact Registry
+
   - name: gcr.io/cloud-builders/gcloud
-	args:
-	  - run
-	  - deploy
-	  - backend-service
-	  - '--image'
-	  - 'northamerica-northeast2-docker.pkg.dev/bankfrontendapp/bank-repo/bank-backend:$COMMIT_SHA'
-	  - '--region'
-	  - northamerica-northeast2
-	  - '--platform'
-	  - managed
-	  - '--timeout'
-	  - '300'
-	  - '--allow-unauthenticated'
-	id: Deploy Container on Google Cloud Run
-	  
+    args:
+      - run
+      - deploy
+      - backend-service
+      - '--image'
+      - 'northamerica-northeast2-docker.pkg.dev/bankfrontendapp/bank-repo/bank-backend:$COMMIT_SHA'
+      - '--region'
+      - northamerica-northeast2
+      - '--platform'
+      - managed
+      - '--timeout'
+      - '300'
+      - '--allow-unauthenticated'
+    id: Deploy Container on Google Cloud Run
+
 images: 
   - 'northamerica-northeast2-docker.pkg.dev/bankfrontendapp/bank-repo/bank-backend:$COMMIT_SHA'
-	
+
 options:
   logging: CLOUD_LOGGING_ONLY
